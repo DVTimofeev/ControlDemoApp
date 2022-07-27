@@ -1,0 +1,3 @@
+[submodule "include/AdamModBus"]
+	path = include/AdamModBus
+	url = git@github.com:DVTimofeev/AdamModBus.git
