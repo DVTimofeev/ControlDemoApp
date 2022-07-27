@@ -1,7 +1,14 @@
 #include "AdamModBus/modbusTCP.h"
 
-struct Valve_2_2{
-    Valve_2_2(modbus::ModbusTCP* adam, uint8_t address) : 
+/**
+ * @brief valve with one coil and 2 states opened/closed
+ * 
+ * EXAMPLE: valve 2/2 or 3/2, both has one coil and two states
+ * 
+ * This struct is to bind object(valve) to adam I/O controller pin address  
+ */
+struct ValveSingleCoil{
+    ValveSingleCoil(modbus::ModbusTCP* adam, uint8_t address) : 
         adam_(adam), address_(address) {}
     
     void open()
@@ -24,8 +31,16 @@ struct Valve_2_2{
         modbus::ModbusTCP* adam_;
 };
 
-struct Valve_3_2{
-    Valve_3_2(modbus::ModbusTCP* adam, uint8_t address1, uint8_t address2) : 
+/**
+ * @brief valve with two active coils each can be triggered separetly, 
+ * but to switch position of valve oposite states of coils is required
+ * 
+ * EXAMPLE: valve 5/3 which redirects flow in two directions
+ * 
+ * This struct is to bind object(valve) to adam I/O controller pin address  
+ */
+struct ValveDoubleCoil{
+    ValveDoubleCoil(modbus::ModbusTCP* adam, uint8_t address1, uint8_t address2) : 
         adam_(adam), address1_(address1), address2_(address2) {}
 
     void switch1_2()
