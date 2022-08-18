@@ -63,7 +63,7 @@ struct ValveDoubleCoil{
 
     bool is_opened()
     {
-        return adam_->read_DO(address1_).value_or(false) && adam_->read_DO(address2_).value_or(false);
+        return adam_->read_DO(address1_).value_or(false) || adam_->read_DO(address2_).value_or(false);
     }
 
     private:
@@ -71,3 +71,31 @@ struct ValveDoubleCoil{
         uint8_t address2_;
         modbus::ModbusTCP* adam_;
 };
+
+/**
+ * @brief turn on/off heater at address
+ * 
+ * 
+ * This struct is to bind object(heater) to adam I/O controller pin address  
+ */
+struct Heater{
+    Heater(modbus::ModbusTCP* adam, uint8_t address) : 
+        adam_(adam), address_(address) {}
+
+    void turn_on(){
+        adam_->write_DO(address_, true);
+    }
+
+    void turn_off(){
+        adam_->write_DO(address_, false);
+    }
+
+    bool is_on()
+    {
+        return adam_->read_DO(address_).value_or(false);
+    }
+
+    private:
+        uint8_t address_;
+        modbus::ModbusTCP* adam_;
+}
